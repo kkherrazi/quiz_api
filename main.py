@@ -5,6 +5,9 @@ from fastapi import HTTPException
 from pydantic import BaseModel
 from typing import Optional, List
 import pandas as pd
+from fastapi.encoders import jsonable_encoder
+from fastapi.responses import JSONResponse
+ 
 
 api = FastAPI(
     title="My API",
@@ -48,10 +51,10 @@ def get_verify():
 
 
 @api.post('/generate_quiz', name="Génèration des QCM ")
-def generate_quiz(description: QuizeListDescription):
+def generate_quiz(desc: QuizeListDescription):
     """Génère un QCM basé sur les paramètres fournis.
     """
-    return description
+    return get_random_quizes(desc.number_of_questions, desc.categories, desc.test_type)
 
 
 @api.post('/create_question', name="Creation de nouvel question ")
@@ -61,17 +64,26 @@ def create_quiz(quize: AdminQuize):
     return quize
 
  
-def get_random_quizes(size: int):
+def get_random_quizes(size: int,  categories: List[str], test_type: str ) :
     '''
     Fonction qui renvois N Quizes selectionneés aléatoirement à partire de la base de donné (le fichier CSV). 
     '''
-    data = pd.read_csv("questions.csv")
+    # read csv file 
+    df = pd.read_csv("questions.csv")
+    
+    #filter data 
+    df = df.query('use == @test_type and subject in @categories')
 
-    # Convert the dictionary into DataFrame
-    df = pd.DataFrame(data)
+    # geta random list
+    df = df.sample(n=size) 
 
-    # each time it gives 3 different rows
-    return df.sample(n=size)
+    df = df.to_json(orient="records") 
+    print(df)
 
+    #json_compatible_item_data = jsonable_encoder(df)
+    return JSONResponse(content=df)
+    #return df
+    
 
- 
+res = get_random_quizes(1, ["Classification", "Automation"], "Test de validation" )
+print(res)

@@ -8,21 +8,20 @@ curl -X GET http://127.0.0.1:8000/verify
 
 
 curl -X 'POST' -i \
-  'http://127.0.0.1:8000/create_quiz' \
+  'http://127.0.0.1:8000/generate_quiz' \
   -H 'Content-Type: application/json' \
- 
  -d '{
-    "test_type": "multiple_choice",
-      "categories": ["math", "history"],
-      "number_of_questions": 10
+    "test_type": "Test de validation",
+      "categories": ["Automation", "Classification"],
+      "number_of_questions": 4
   }'
 
 
 # ------------------------
-# 2. /generate_quiz 
+# 2. /create_question 
 # ------------------------
 curl -X 'POST' -i \
-  'http://127.0.0.1:8000/generate_quiz' \
+  'http://127.0.0.1:8000/create_question' \
   -H 'Content-Type: application/json' \
   -d '{
     "admin_username": "admin",
