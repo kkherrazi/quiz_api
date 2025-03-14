@@ -1,31 +1,72 @@
-# ------------------------
-# 1. Requête CURL pour consulter le EndPoint /verify
-# ------------------------
+## -------------------------------------------
 
+a2hhbGlkOmtoZXJyYXpp
+Ym9iOmJ1aWxkZXI=
+Y2xlbWVudGluZTptYW5kYXJpbmU=
+
+
+## 1. EndPoint /verify 
+
+
+# 1. Requête CURL pour consulter 
 curl -X GET http://127.0.0.1:8000/verify
 
-# 2. /generate_quiz 
+
+## -------------------------------------------
+## 2. EndPoint /generate_quiz 
 
 
+# Requête 1 : renvoi une erreur HTTP 403
 curl -X 'POST' -i \
   'http://127.0.0.1:8000/generate_quiz' \
   -H 'Content-Type: application/json' \
- -d '{
-    "test_type": "Test de validation",
+  -H 'Authorization: Basic dGVzdDp0ZXN0 ' \
+  -d '{
+      "test_type": "Test de validation",
       "categories": ["Automation", "Classification"],
       "number_of_questions": 4
-  }'
+   }'
+
+# Requête 1 : renvoi une erreur HTTP 200 OK et la list de -s Quiz.
+curl -X 'POST' -i \
+  'http://127.0.0.1:8000/generate_quiz' \
+  -H 'Content-Type: application/json' \
+  -H 'Authorization: Basic a2hhbGlkOmtoZXJyYXpp' \
+  -d '{
+      "test_type": "Test de validation",
+      "categories": ["Automation", "Classification"],
+      "number_of_questions": 4
+   }'
+
+## -------------------------------------------
+## 3. EndPoint /create_question   
 
 
-# ------------------------
-# 2. /create_question 
-# ------------------------
+# Requête 1 : renvoi une erreur HTTP 403 parceque le password ADMIN n'est pas bon.   
 curl -X 'POST' -i \
   'http://127.0.0.1:8000/create_question' \
   -H 'Content-Type: application/json' \
   -d '{
     "admin_username": "admin",
-    "admin_password": "4dm1N",
+    "admin_password": "faux_password",
+    "question": "Quelle est la capitale de la France ?",
+    "subject": "geography",
+    "correct": ["Paris"],
+    "use": "multiple_choice",
+    "responseA": "Londres",
+    "responseB": "Paris",
+    "responseC": "Berlin",
+    "responseD": "Madrid"
+  }'
+
+
+# Requête 2 : fonctionne bien, renvoi un code HTTP 201 et l'objet nouvelement créé.   
+curl -X 'POST' -i \
+  'http://127.0.0.1:8000/create_question' \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "admin_username": "admin",
+    "admin_password": "un_bon_password",
     "question": "Quelle est la capitale de la France ?",
     "subject": "geography",
     "correct": ["Paris"],
