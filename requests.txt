@@ -29,7 +29,7 @@ curl -X 'POST' -i \
    }'
 
 # Requête 2/2 
-# Login:Password => khalid:kherrazi, utilisateur bien coonu.
+# Login:Password => khalid:kherrazi, utilisateur bien connu du systeme.
 # Reponse :  HTTP 200  et un JON contenant 4 questons  
 #
 curl -X 'POST' -i \
@@ -43,7 +43,6 @@ curl -X 'POST' -i \
    }'
 
 # Requête 2/3 
-# Login:Password => khalid:kherrazi, utilisateur bien coonu.
 # Reponse :  HTTP 422  parce que le "test_type" est vide   
 #
 curl -X 'POST' -i \
@@ -54,8 +53,46 @@ curl -X 'POST' -i \
       "test_type": "",
       "categories": ["Automation", "Classification"],
       "number_of_questions": 4
-   }'  
+   }' 
 
+ # Requête 2/4 
+# Reponse :  HTTP 422  parce que la liste des categories est vide   
+#
+curl -X 'POST' -i \
+  'http://127.0.0.1:8000/generate_quiz' \
+  -H 'Content-Type: application/json' \
+  -H 'Authorization: Basic a2hhbGlkOmtoZXJyYXpp' \
+  -d '{
+      "test_type": "Test de validation",
+      "categories": [],
+      "number_of_questions": 4
+   }'   
+
+# Requête 2/5 
+# Reponse :  HTTP 204  parce qu'il n'y a pas de test de Médecine dans la base   
+#
+curl -X 'POST' -i \
+  'http://127.0.0.1:8000/generate_quiz' \
+  -H 'Content-Type: application/json' \
+  -H 'Authorization: Basic a2hhbGlkOmtoZXJyYXpp' \
+  -d '{
+      "test_type": "Test de Doctorat",
+      "categories": ["Medecine"],
+      "number_of_questions": 5
+   }'     
+
+# Requête 2/6 
+# Reponse :  HTTP 422  parce que le "number_of_questions" dois etre entre 1 et 20.   
+#
+curl -X 'POST' -i \
+  'http://127.0.0.1:8000/generate_quiz' \
+  -H 'Content-Type: application/json' \
+  -H 'Authorization: Basic a2hhbGlkOmtoZXJyYXpp' \
+  -d '{
+      "test_type": "Sport",
+      "categories": ["", "Classification"],
+      "number_of_questions": 100
+   }'  
 
 ## -------------------------------------------
 ## 3. EndPoint /create_question   
