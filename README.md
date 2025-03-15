@@ -3,7 +3,7 @@ Quiz API
 
 # Instalation
 
-Installer de l'envirenement avec la commande :
+Installer l'envirenement avec la commande :
 ```bash
 pip install --no-cache-dir --upgrade -r requirements.txt
 ```
@@ -20,7 +20,7 @@ python -m pytest tests
 ```
 
 # Architecture de l'application:
-
+```bash
 /
 ├── app
 │   ├── main.py
@@ -36,3 +36,4 @@ python -m pytest tests
 ├── requirements.txt
 ├── ...
 └── ...
+```
