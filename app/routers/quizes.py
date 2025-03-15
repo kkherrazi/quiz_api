@@ -3,7 +3,7 @@ from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 from typing import Optional, List
 import pandas as pd
-from .dependencies import verify_authorization_header  
+from dependencies import verify_authorization_header  
 
 quizes_router = APIRouter(
         dependencies=[Depends(verify_authorization_header)],
@@ -33,7 +33,21 @@ class QuizeListDescription(BaseModel):
 @quizes_router.post('/generate_quiz', name="Génèration des QCM " )
 def generate_quiz(desc: QuizeListDescription ):
     """Génère un QCM basé sur les paramètres fournis.
+    Le type de test (test_type) dois etre renseigné.
+    Le nombre des question (number_of_questions) doisetre entre 1 et 10 
+
     """
+    if desc.number_of_questions < 1: 
+        raise HTTPException(
+            status_code=422,
+            detail="Le nombre des question doisetre entre 1 et 10"
+        )
+    if desc.test_type == "": 
+        raise HTTPException(
+            status_code=422,
+            detail="Le type de test (test_type) dois etre renseigné "
+        )
+
     return get_random_questions(desc.number_of_questions, desc.categories, desc.test_type)
 
  

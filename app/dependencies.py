@@ -1,4 +1,6 @@
 from fastapi import Header, HTTPException
+ 
+ 
 import base64
 
 # USERS DB 
@@ -7,7 +9,6 @@ USERS_DB = {
   "bob": "builder", #          ->  Ym9iOmJ1aWxkZXI=
   "clementine": "mandarine" #  ->  Y2xlbWVudGluZTptYW5kYXJpbmU=
 }
-
 
 async def verify_authorization_header(Authorization: str = Header()):
     token = Authorization.replace("Basic ","")
