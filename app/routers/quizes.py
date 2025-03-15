@@ -37,10 +37,10 @@ def generate_quiz(desc: QuizeListDescription ):
     Le nombre des question (number_of_questions) doisetre entre 1 et 10 
 
     """
-    if desc.number_of_questions < 1: 
+    if desc.number_of_questions < 1 or desc.number_of_questions > 20: 
         raise HTTPException(
             status_code=422,
-            detail="Le nombre des question doisetre entre 1 et 10"
+            detail="Le nombre des question doisetre entre 1 et 20"
         )
     if desc.test_type == "": 
         raise HTTPException(

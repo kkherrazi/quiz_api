@@ -1,9 +1,5 @@
 ## -------------------------------------------
-#  Utilisateurs connus :
-#      a2hhbGlkOmtoZXJyYXpp
-#      Ym9iOmJ1aWxkZXI=
-#      Y2xlbWVudGluZTptYW5kYXJpbmU=
-#
+#  Bour executer ces requetes sous for de tests PyTest, vous pouvez aller dans le dossier "app" et executer la commande shell "python -m pytest tests" 
 
 
 ## -------------------------------------------
@@ -41,10 +37,24 @@ curl -X 'POST' -i \
   -H 'Content-Type: application/json' \
   -H 'Authorization: Basic a2hhbGlkOmtoZXJyYXpp' \
   -d '{
-      "test_type": "",
+      "test_type": "Test de validation",
       "categories": ["Automation", "Classification"],
       "number_of_questions": 4
    }'
+
+# Requête 2/3 
+# Login:Password => khalid:kherrazi, utilisateur bien coonu.
+# Reponse :  HTTP 422  parce que le "test_type" est vide   
+#
+curl -X 'POST' -i \
+  'http://127.0.0.1:8000/generate_quiz' \
+  -H 'Content-Type: application/json' \
+  -H 'Authorization: Basic a2hhbGlkOmtoZXJyYXpp' \
+  -d '{
+      "test_type": "",
+      "categories": ["Automation", "Classification"],
+      "number_of_questions": 4
+   }'  
 
 
 ## -------------------------------------------

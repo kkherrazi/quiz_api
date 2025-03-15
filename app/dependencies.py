@@ -1,4 +1,4 @@
-from fastapi import Header, HTTPExceptio
+from fastapi import Header, HTTPException
 import base64
 
 # USERS DB 
