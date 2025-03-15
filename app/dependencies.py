@@ -1,13 +1,12 @@
-from fastapi import Header, HTTPException
- 
- 
+from fastapi import Header, HTTPExceptio
 import base64
 
 # USERS DB 
 USERS_DB = {
   "khalid": "kherrazi",  #     ->  a2hhbGlkOmtoZXJyYXpp
-  "bob": "builder", #          ->  Ym9iOmJ1aWxkZXI=
-  "clementine": "mandarine" #  ->  Y2xlbWVudGluZTptYW5kYXJpbmU=
+  "bob": "builder",       
+  "alice": "wonderland",
+  "clementine": "mandarine"  
 }
 
 async def verify_authorization_header(Authorization: str = Header()):
@@ -21,7 +20,6 @@ async def verify_authorization_header(Authorization: str = Header()):
             detail="Informations d'identification manquantes ou incorrectes",
             headers={"WWW-Authenticate": "Basic"},
         )
-
 
 def b64encode_encode(login: str,  password: str) : 
     token = base64.b64encode((login + ':' + password).encode('utf-8')).decode('utf-8')
